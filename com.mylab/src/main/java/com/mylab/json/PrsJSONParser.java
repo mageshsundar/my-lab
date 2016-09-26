@@ -4,10 +4,15 @@
 package com.mylab.json;
 
 import org.json.simple.JSONObject;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.mylab.json.data.Person;
+import com.mylab.json.data.PersonAddress;
+import com.mylab.json.data.PersonCommunication;
+import com.mylab.json.data.PersonContact;
 import com.mylab.json.jsoninf.ParserConstant;
 
 import java.io.FileReader;
@@ -16,107 +21,99 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class PrsJSONParser implements ParserConstant{
+	
+	
+	final static Logger logger = Logger.getLogger(PrsJSONParser.class);
+	
+	Person person = new Person();
+	
+	PersonCommunication prsCommunication = new PersonCommunication();
 	
 	public static void main(String a[]) throws Exception {
 		
 		PrsJSONParser prsJsonParser = new PrsJSONParser();
 		
-		
 		prsJsonParser.parseFile("PersonInfo.json");
 		
 	}
 	
-	 boolean parseFile(String fileName) {
+	 boolean parseFile(String fileName)throws Exception {
 		 
 		ClassLoader classLoader = getClass().getClassLoader();
 			
 		File jsonfile = new File(classLoader.getResource(fileName).getFile());
-
-		
-		HashMap<String, Object> jsonMap = new HashMap<String, Object>();
-		
-		HashMap<String,String> mailingAddressMap = new HashMap<String, String>();
-		HashMap<String,String> contactMap = new HashMap<String, String>();
-		
+	
 		ArrayList<Object> mailingAddressList = new ArrayList<>();
 		ArrayList<Object> contactList = new ArrayList<>();
+		FileReader jsf = null;
 		
 		try{
-			FileReader jsf = new FileReader(jsonfile);
+			jsf = new FileReader(jsonfile);
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(jsf);
 			
-			String personName = (String)jsonObject.get(PERSON_NAME);
-			System.out.println(personName);
-			jsonMap.put(PERSON_NAME, personName);
-			
-			String personID = (String)jsonObject.get(PERSON_ID);
-			System.out.println(personID);
-			jsonMap.put(PERSON_ID, personID);
-			
-			Long personAge = (Long)jsonObject.get(PERSON_AGE);
-			System.out.println(personAge);
-			jsonMap.put(PERSON_AGE, personAge);
-			
-			Date personDOB = new Date((Long)jsonObject.get(PERSON_DOB));
-			System.out.println(personDOB);
-			jsonMap.put(PERSON_DOB, personDOB);
-			
-			String personGender = (String)jsonObject.get(PERSON_GENDER);
-			System.out.println(personGender);
-			jsonMap.put(PERSON_GENDER, personGender);
+			person.setPersonName((String)jsonObject.get(PERSON_NAME));
+			person.setPersonID((String)jsonObject.get(PERSON_ID));
+			person.setPersonAge((Long)jsonObject.get(PERSON_AGE));
+			person.setPersonDOB(new Date((Long)jsonObject.get(PERSON_DOB)));
+			person.setPersonGender((String)jsonObject.get(PERSON_GENDER));
 			
 			JSONObject communication = (JSONObject)jsonObject.get(PERSON_COMMUNICATION);
 			
 			JSONArray mailAddress = (JSONArray)communication.get(PERSON_M_ADDRESS);
 			
-			Iterator itr = null; 
-					itr = mailAddress.iterator();
+			Iterator<JSONObject> itr = null; 
+			
+			itr = mailAddress.iterator();
 			JSONObject mobj= null;
 			
-			while(itr.hasNext()){
+			PersonAddress personAddress = null;
 			
-				mobj = (JSONObject)itr.next();
-				mailingAddressMap.put(PERSON_ADDRESS1, (String)mobj.get(PERSON_ADDRESS1));
-				mailingAddressMap.put(PERSON_ADDRESS2, (String)mobj.get(PERSON_ADDRESS2));
-				mailingAddressMap.put(PERSON_CITY, (String)mobj.get(PERSON_CITY));
-				mailingAddressMap.put(PERSON_STATE, (String)mobj.get(PERSON_STATE));
-				mailingAddressMap.put(PERSON_CTRY, (String)mobj.get(PERSON_CTRY));
-				mailingAddressMap.put(PERSON_ZIP, (String)mobj.get(PERSON_ZIP));
-				mailingAddressMap.put(PERSON_CADDRESS, (String)mobj.get(PERSON_CADDRESS));
-				mailingAddressList.add(mailingAddressMap);
+			while(itr.hasNext()){
+				
+				personAddress = new PersonAddress();
+				mobj = itr.next();
+				
+				personAddress.setAddress1((String)mobj.get(PERSON_ADDRESS1));
+				personAddress.setAddress2((String)mobj.get(PERSON_ADDRESS2));
+				personAddress.setCity((String)mobj.get(PERSON_CITY));
+				personAddress.setState((String)mobj.get(PERSON_STATE));
+				personAddress.setCtry((String)mobj.get(PERSON_CTRY));
+				personAddress.setZip((String)mobj.get(PERSON_ZIP));
+				personAddress.setCurrentAddress((String)mobj.get(PERSON_CADDRESS));
+				mailingAddressList.add(personAddress);
 			}
 			
-			System.out.println(mailingAddressList.size());
+			prsCommunication.setPersonAddress((PersonAddress[])(mailingAddressList.toArray()));
 			
 			JSONArray contact = (JSONArray)communication.get(PERSON_CONTACT);
+			PersonContact prsContact = null;
 			
 			itr = contact.iterator();
 			
 			while(itr.hasNext()){
 				
-				mobj = (JSONObject)itr.next();
-				contactMap.put(PERSON_PHONE_NUMBER, (String)mobj.get(PERSON_PHONE_NUMBER));
-				contactMap.put(PERSON_EMAIL_ID, (String)mobj.get(PERSON_EMAIL_ID));
-				contactList.add(mailingAddressMap);
+				prsContact = new PersonContact();
+				
+				mobj = itr.next();
+				prsContact.setPhoneNumer((String)mobj.get(PERSON_PHONE_NUMBER));
+				prsContact.setEmailID((String)mobj.get(PERSON_EMAIL_ID));
+				contactList.add(prsContact);
 			}
 			
-			System.out.println(contactList.size());
+			prsCommunication.setPersonContact((PersonContact[])(contactList.toArray()));
+			person.setPersonCommunication(prsCommunication);
 			
-			jsf.close();
-			jsf=null;
 			
 			//ToDo
 			/*
-			  1. Create a String delimited object and store the parsed data in the POJO instead of HashMap
-			  2. Store the POJO in the DynamoDB table (variation: since we have a req to read and parse the string delimited values, I can store in a String Object instead of POJO
-			  3. Create a Table in DynamoDb to store person data (personID, personData)
-			  4. Write another program to read the DynamoDB table record and tokenize it based on the delimiter
-			  5. Store the JSON file S3 and retrieve the file from S3
+			  1. Store the POJO in the DynamoDB table (variation: since we have a req to read and parse the string delimited values, I can store in a String Object instead of POJO
+			  2. Create a Table in DynamoDb to store person data (personID, personData)
+			  3. Write another program to read the DynamoDB table record and tokenize it based on the delimiter
+			  4. Store the JSON file S3 and retrieve the file from S3
 			*/
 			
 		}catch (FileNotFoundException fe){
@@ -128,9 +125,28 @@ public class PrsJSONParser implements ParserConstant{
 		} catch (ParseException pe){
 			pe.printStackTrace();
 			return false;
+		} finally{
+			mailingAddressList = null;
+			contactList = null;
+			
+			if(jsf != null)
+					jsf.close();
+			jsf=null;
+			
 		}
 		return true;	
 	}
-	
+	 
+	void debug(Person person){
+		if(logger.isDebugEnabled()){
+			logger.debug("PersonName : "+ person.getPersonName());
+			logger.debug("PersonID : "+ person.getPersonID());
+			logger.debug("PersonAge : "+ person.getPersonAge());
+			logger.debug("PersonDOB : "+ person.getPersonDOB());
+			logger.debug("PersonGender : "+ person.getPersonGender());
+		}
+	}
 	
 }
+	
+
