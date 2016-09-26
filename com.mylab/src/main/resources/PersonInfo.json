@@ -1,0 +1,44 @@
+{
+	"PersonName":"somebody1",
+	"PersonID":"1111",
+	"PersonAge":42,
+	"PersonDOB":126230400000,
+	"PersonGender":"Male",
+	"Communication":{
+	"MailingAddress":[
+		{"Address1":"A1",
+		 "Address2":"A2",
+		 "City":"Cupertino",
+		 "State":"California",
+		 "Country":"Country",
+		 "Zip":"95014",	
+		 "CurrentAddress":"Yes" 
+		},
+		{"Address1":"A11",
+		 "Address2":"A12",
+		 "City":"Sunnyvale",
+		 "State":"California",
+		 "Country":"Country",
+		 "Zip":"94087",	
+		 "CurrentAddress":"No"
+		},
+		{"Address1":"A13",
+		 "Address2":"A13",
+		 "City":"San Jose",
+		 "State":"California",
+		 "Country":"Country",
+		 "Zip":"95120",
+		 "CurrentAddress":"No"	
+		}
+	],
+	"Contact":
+		[
+			{"PhoneNumber":"1232344567",
+			 "EmailID":"somebody1@gmail.com"
+			},
+			{"PhoneNumber":"2314327654",
+			 "EmailID":"somebody1@hotmail.com"
+			} 	
+		]
+	}
+}
