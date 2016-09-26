@@ -86,8 +86,9 @@ public class PrsJSONParser implements ParserConstant{
 				personAddress.setCurrentAddress((String)mobj.get(PERSON_CADDRESS));
 				mailingAddressList.add(personAddress);
 			}
-			
-			prsCommunication.setPersonAddress((PersonAddress[])(mailingAddressList.toArray()));
+			PersonAddress[] pAdd= new PersonAddress[mailingAddressList.size()];
+			mailingAddressList.toArray(pAdd);
+			prsCommunication.setPersonAddress(pAdd);
 			
 			JSONArray contact = (JSONArray)communication.get(PERSON_CONTACT);
 			PersonContact prsContact = null;
@@ -103,8 +104,9 @@ public class PrsJSONParser implements ParserConstant{
 				prsContact.setEmailID((String)mobj.get(PERSON_EMAIL_ID));
 				contactList.add(prsContact);
 			}
-			
-			prsCommunication.setPersonContact((PersonContact[])(contactList.toArray()));
+			PersonContact[] pC = new PersonContact[contactList.size()];
+			contactList.toArray(pC);
+			prsCommunication.setPersonContact(pC);
 			person.setPersonCommunication(prsCommunication);
 			
 			
