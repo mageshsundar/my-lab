@@ -10,6 +10,11 @@ package com.mylab.json.data;
 
 import java.util.Date;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
+@DynamoDBTable(tableName = "Person")
 public class Person {
 	String personName;
 	String personID;
@@ -18,12 +23,15 @@ public class Person {
 	String personGender;
 	PersonCommunication personCommunication;
 	
+	@DynamoDBAttribute
 	public String getPersonName() {
 		return personName;
 	}
 	public void setPersonName(String personName) {
 		this.personName = personName;
 	}
+	
+	@DynamoDBHashKey
 	public String getPersonID() {
 		return personID;
 	}

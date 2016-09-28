@@ -40,7 +40,7 @@ public class PrsJSONParser implements ParserConstant{
 		
 	}
 	
-	 boolean parseFile(String fileName)throws Exception {
+	 public Person parseFile(String fileName)throws Exception {
 		 
 		ClassLoader classLoader = getClass().getClassLoader();
 			
@@ -109,7 +109,6 @@ public class PrsJSONParser implements ParserConstant{
 			prsCommunication.setPersonContact(pC);
 			person.setPersonCommunication(prsCommunication);
 			
-			
 			//ToDo
 			/*
 			  1. Store the POJO in the DynamoDB table (variation: since we have a req to read and parse the string delimited values, I can store in a String Object instead of POJO
@@ -120,13 +119,13 @@ public class PrsJSONParser implements ParserConstant{
 			
 		}catch (FileNotFoundException fe){
 				fe.printStackTrace();
-				return false;
+				return null;
 		} catch (IOException io) {
 			io.printStackTrace();
-			return false;
+			return null;
 		} catch (ParseException pe){
 			pe.printStackTrace();
-			return false;
+			return null;
 		} finally{
 			mailingAddressList = null;
 			contactList = null;
@@ -136,7 +135,7 @@ public class PrsJSONParser implements ParserConstant{
 			jsf=null;
 			
 		}
-		return true;	
+		return person;	
 	}
 	 
 	void debug(Person person){
@@ -147,6 +146,10 @@ public class PrsJSONParser implements ParserConstant{
 			logger.debug("PersonDOB : "+ person.getPersonDOB());
 			logger.debug("PersonGender : "+ person.getPersonGender());
 		}
+	}
+	
+	void persistPersonData(Person person){
+		
 	}
 	
 }

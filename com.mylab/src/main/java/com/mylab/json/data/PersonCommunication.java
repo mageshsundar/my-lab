@@ -1,5 +1,8 @@
 package com.mylab.json.data;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
+@DynamoDBDocument
 public class PersonCommunication {
 	PersonAddress[] personAddress;
 	PersonContact[] personContact;
