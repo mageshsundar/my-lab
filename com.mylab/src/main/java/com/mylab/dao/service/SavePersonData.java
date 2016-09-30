@@ -44,6 +44,7 @@ public class SavePersonData {
 		try {
 			PersonDAO personDAO = new PersonDAO();
 			AmazonDynamoDBClient dbClient = personDAO.getDBClient();
+			
 			DynamoDBMapper mapper = new DynamoDBMapper(dbClient);
 			mapper.save(person);
 		} catch(Exception e) {

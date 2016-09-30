@@ -12,7 +12,10 @@ import java.util.Date;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshalling;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.mylab.dao.service.PersonCommunicationMarshaller;
 
 @DynamoDBTable(tableName = "Person")
 public class Person {
@@ -23,7 +26,7 @@ public class Person {
 	String personGender;
 	PersonCommunication personCommunication;
 	
-	@DynamoDBAttribute
+	@DynamoDBRangeKey (attributeName = "PersonName")
 	public String getPersonName() {
 		return personName;
 	}
@@ -31,10 +34,12 @@ public class Person {
 		this.personName = personName;
 	}
 	
-	@DynamoDBHashKey
+	@DynamoDBHashKey (attributeName = "PersonID")
 	public String getPersonID() {
 		return personID;
 	}
+	
+	
 	public void setPersonID(String personID) {
 		this.personID = personID;
 	}
@@ -56,6 +61,8 @@ public class Person {
 	public void setPersonGender(String personGender) {
 		this.personGender = personGender;
 	}
+	
+	@DynamoDBMarshalling (marshallerClass = PersonCommunicationMarshaller.class)
 	public PersonCommunication getPersonCommunication() {
 		return personCommunication;
 	}

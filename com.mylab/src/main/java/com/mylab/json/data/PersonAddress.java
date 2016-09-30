@@ -1,8 +1,9 @@
 package com.mylab.json.data;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-@DynamoDBDocument
+@DynamoDBTable(tableName = "Person")
 public class PersonAddress {
 	String address1;
 	String address2;
