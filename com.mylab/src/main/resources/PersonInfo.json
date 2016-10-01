@@ -4,7 +4,7 @@
 	"PersonAge":42,
 	"PersonDOB":126230400000,
 	"PersonGender":"Male",
-	"Communication":{
+	"Communication":[{
 	"MailingAddress":[
 		{"Address1":"A1",
 		 "Address2":"A2",
@@ -40,5 +40,5 @@
 			 "EmailID":"somebody1@hotmail.com"
 			} 	
 		]
-	}
+	}]
 }

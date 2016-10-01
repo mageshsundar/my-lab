@@ -1,6 +1,5 @@
 package com.mylab.dao.service;
 
-
 import org.apache.log4j.Logger;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshaller;
@@ -8,23 +7,25 @@ import com.mylab.dao.PersonDAOConstant;
 import com.mylab.json.data.PersonAddress;
 import com.mylab.json.data.PersonCommunication;
 import com.mylab.json.data.PersonContact;
+import com.mylab.json.util.JSONUtil;
 
+
+//TODO: Replace with DynamoDBTypeConverter<S,T>
 public class PersonCommunicationMarshaller implements DynamoDBMarshaller<PersonCommunication>, PersonDAOConstant {
-
 	static final Logger logger = Logger.getLogger(PersonCommunicationMarshaller.class);
 
 	@Override
 	public String marshall(PersonCommunication pC) {
-		// TODO Auto-generated method stub
-		String personAddressArr = marshallPersonAddress(pC);
-		debug("personAddressArr "+ personAddressArr );
 		
-		String personContactArr = marshallPersonContact(pC, personAddressArr);
-		debug("personContactArr "+ personContactArr );
-		
+		String personAddressArr = JSONUtil.marshallPersonAddress(pC);
+
+		String personContactArr = JSONUtil.marshallPersonContact(pC, personAddressArr);
+
 		String sb = new StringBuilder().append(personAddressArr).append(PERSON_COMM_DELIM).append(personContactArr)
 				.toString();
-		debug("Final String "+ sb );
+
+		debug("Final String " + sb);
+
 		return sb;
 	}
 
@@ -34,24 +35,25 @@ public class PersonCommunicationMarshaller implements DynamoDBMarshaller<PersonC
 
 		if (ms == null)
 			return pcm;
+		
+		
 		pcm = new PersonCommunication();
 
-		//Split the string into an array of PersonAddress and PersonContact
+		// Split the string into an array of PersonAddress and PersonContact
 		String[] msArray = ms.split(PERSON_COMM_DELIM);
 
 		if (msArray != null)
 			debug("Totol PC length " + msArray.length);
-		
-		int size = msArray.length;
-		
 
-		
+		int size = msArray.length;
+
 		String[] sAA = null, sCA = null;
-		// Split the Address array string and Contact array string in separate ArrayLists
+		// Split the Address array string and Contact array string in separate
+		// ArrayLists
 		for (int i = 0; i < size; i++) {
 			if (msArray[i].contains(ADDRESS_SEPARATOR)) {
 				sAA = msArray[i].split(ADDRESS_RECORD_SEPERATOR);
-			} else if(msArray[i].contains(CONTACT_SEPARATOR)) {
+			} else if (msArray[i].contains(CONTACT_SEPARATOR)) {
 				sCA = msArray[i].split(CONTACT_RECORD_SEPARATOR);
 			}
 		}
@@ -74,14 +76,13 @@ public class PersonCommunicationMarshaller implements DynamoDBMarshaller<PersonC
 			}
 			pcm.setPersonAddress(pa);
 		}
-		
-		
+
 		/* Parse the String and create Person Contact object */
-		if(sCA != null) {
+		if (sCA != null) {
 			debug("Size of Contact array " + sCA.length);
 			PersonContact[] pc = new PersonContact[sCA.length];
-			
-			for (int i=0; i< sCA.length; i++){
+
+			for (int i = 0; i < sCA.length; i++) {
 				s1 = sCA[i].split(CONTACT_SEPARATOR);
 				pc[i] = new PersonContact();
 				pc[i].setEmailID(s1[0]);
@@ -89,47 +90,13 @@ public class PersonCommunicationMarshaller implements DynamoDBMarshaller<PersonC
 			}
 			pcm.setPersonContact(pc);
 		}
-		
+
 		return pcm;
 	}
-
-	private String marshallPersonContact(PersonCommunication pC, String personAddressArr) {
-		StringBuilder pContactSB = new StringBuilder();
-		PersonContact[] pContact = pC.getPersonContact();
-
-		if (pContact == null)
-			return null;
-
-		for (PersonContact pCI : pContact) {
-			pContactSB.append(pCI.getEmailID()).append(CONTACT_SEPARATOR).append(pCI.getPhoneNumer());
-			pContactSB.append(CONTACT_RECORD_SEPARATOR);
-
-		}
-		return pContactSB.toString();
-	}
-
-
-	private String marshallPersonAddress(PersonCommunication pC) {
-		StringBuilder pAddrSB = new StringBuilder();
-		PersonAddress[] pAddress = pC.getPersonAddress();
-
-		if (pAddress == null)
-			return null;
-
-		for (PersonAddress pA : pAddress) {
-			pAddrSB.append(pA.getAddress1()).append(ADDRESS_SEPARATOR).append(pA.getAddress2())
-					.append(ADDRESS_SEPARATOR).append(pA.getCity()).append(ADDRESS_SEPARATOR).append(pA.getState())
-					.append(ADDRESS_SEPARATOR).append(pA.getCtry()).append(ADDRESS_SEPARATOR).append(pA.getZip())
-					.append(ADDRESS_SEPARATOR).append(pA.getCurrentAddress());
-			pAddrSB.append(ADDRESS_RECORD_SEPERATOR);
-		}
-
-		return pAddrSB.toString();
-	}
-
-	public void debug(String debugMsg){
-		if(logger.isDebugEnabled())
+	
+	public void debug(String debugMsg) {
+		if (logger.isDebugEnabled())
 			logger.debug(debugMsg);
 	}
-	
+
 }

@@ -56,9 +56,6 @@ public static void persistDataWithMapper(Person person){
 			logger.error("Error in persistData", e);
 		}
 	
-		
-	
-	
 	}
 
 	

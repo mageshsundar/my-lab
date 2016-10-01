@@ -24,7 +24,7 @@ public class Person {
 	Long personAge;
 	Date personDOB;
 	String personGender;
-	PersonCommunication personCommunication;
+	PersonCommunication[] personCommunication;
 	
 	@DynamoDBRangeKey (attributeName = "PersonName")
 	public String getPersonName() {
@@ -63,10 +63,10 @@ public class Person {
 	}
 	
 	@DynamoDBMarshalling (marshallerClass = PersonCommunicationMarshaller.class)
-	public PersonCommunication getPersonCommunication() {
+	public PersonCommunication[] getPersonCommunication() {
 		return personCommunication;
 	}
-	public void setPersonCommunication(PersonCommunication personCommunication) {
+	public void setPersonCommunication(PersonCommunication[] personCommunication) {
 		this.personCommunication = personCommunication;
 	}
 	

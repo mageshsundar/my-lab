@@ -1,14 +1,13 @@
 package com.mylab.dao.service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.GetItemOutcome;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.GetItemResult;
@@ -28,18 +27,6 @@ public class GetPersonData {
 		
 		String hashKeyValue = person.getPersonID();
 		String rangeKeyValue = person.getPersonName();
-				
-		/* PrimaryKey primaryKey = new PrimaryKey();
-		 primaryKey.addComponent("PersonName", person.getPersonID());
-		
-		item.withPrimaryKey("PersonID", person.getPersonID());
-		item.withString("PersonName", person.getPersonName());
-		item.withLong("PersonAge", person.getPersonAge());
-		item.withString("PersonDOB", String.valueOf(person.getPersonDOB()));
-		item.withString("PersonGender", person.getPersonGender());
-		item.withList("PersonCommunication", person.getPersonCommunication());
-		Item outcome = table.getItem(primaryKey);
-*/
 		
 		GetItemOutcome outcome = table.getItemOutcome("PersonID", hashKeyValue, "PersonName", rangeKeyValue);
 		
@@ -57,4 +44,19 @@ public class GetPersonData {
 		return statusCode;
 	}
 
+	public String searchPersonWithMapper(Person person) throws Exception {
+		try {
+			PersonDAO personDAO = new PersonDAO();
+			AmazonDynamoDBClient dbClient = personDAO.getDBClient();
+			
+			DynamoDBMapper mapper = new DynamoDBMapper(dbClient);
+			mapper.load(person);
+			
+		} catch(Exception e) {
+			logger.error ("Error in Saving", e);
+		}
+		return "SUCCESS";
+	
+	}
+	
 }
