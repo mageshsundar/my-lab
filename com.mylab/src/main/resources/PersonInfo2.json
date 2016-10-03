@@ -1,0 +1,10 @@
+{  
+   "Person":{  
+      "PersonName":"somebody1",
+      "PersonID":"1111",
+      "PersonAge":42,
+      "PersonDOB":126230400000,
+      "PersonGender":"Male"
+   },
+   "Communication":"Address1|Address2|City|State|Country|Zip|Email|AlternateEmail|Phone1|Phone2|Phone3\nA10|A11|C1|S1|Ctry1|Z1|somobody1@sp.com|somebody1@sb2.com|408123123|408221221|408312312\nA20|A21|C2|S2|Ctry2||somobody1@sp.com|somebody1@sb2.com|408123123|408221221|408312312\nA30|A31|C3|S3|Ctry3|Z3|somobody1@sp.com|somebody1@sb2.com|408123123|408221221|408312312\n"
+}
