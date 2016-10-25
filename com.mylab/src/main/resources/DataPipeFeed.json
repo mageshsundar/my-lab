@@ -1,0 +1,93 @@
+[
+	{
+		"id": 11,
+		"dataSetId": 8,
+		"dataSourceId": 0,
+		"dataAcquisitionTime": 1470323704,
+		"dataNominalStartTime": 1463962500,
+		"dataNominalEndTime": 1463963400,
+		"createTime": "2016-08-04 15:13:28.0",
+		"updateTime": "2016-08-04 15:13:28.0",
+		"state": "READY",
+		"datasetinstanceelements": 
+		[
+			{
+				"id": 11,
+				"uri": "s3://path1/path2/data1",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 12,
+				"uri": "s3://path1/path2/data2",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 13,
+				"uri": "s3://path1/path2/data3",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 14,
+				"uri": "s3://path1/path2/data4",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			}
+		]
+	},
+
+	{
+		"id": 12,
+		"dataSetId": 9,
+		"dataSourceId": 0,
+		"dataAcquisitionTime": 1470323704,
+		"dataNominalStartTime": 1463962500,
+		"dataNominalEndTime": 1463963400,
+		"createTime": "2016-08-04 15:13:28.0",
+		"updateTime": "2016-08-04 15:13:28.0",
+		"state": "READY",
+		"datasetinstanceelements": 
+		[
+			{
+				"id": 11,
+				"uri": "s3://path1/path2/data5",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 12,
+				"uri": "s3://path1/path2/data6",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 13,
+				"uri": "s3://path1/path2/data7",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			},
+
+			{
+				"id": 14,
+				"uri": "s3://path1/path2/data8",
+				"attribs": null,
+				"createTime": "2016-08-04 15:13:28.0",
+				"updateTime": "2016-08-04 15:13:28.0"
+			}
+		]
+	}
+]
